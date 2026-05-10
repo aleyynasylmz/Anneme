@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anneme — Sevgi 🌼</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+–yellow:  #FFD95A;
+–gold:    #F0A500;
+–cream:   #FFFDF0;
+–night:   #060C1A;
+–night2:  #0D1630;
+–leaf:    #5DBB7A;
+–stem:    #3E8A52;
+}
+
+html { scroll-behavior: smooth; }
+body {
+background: var(–night);
+font-family: ‘Nunito’, sans-serif;
+color: var(–cream);
+overflow-x: hidden;
+min-height: 100vh;
+}
+
+/* ── STARS ── */
+#starfield {
+position: fixed; inset: 0; z-index: 0; pointer-events: none;
+background: radial-gradient(ellipse at 50% 0%, #1a2a4a 0%, var(–night) 70%);
+}
+.star {
+position: absolute; border-radius: 50%; background: #fff;
+animation: twinkle var(–t) var(–d) ease-in-out infinite;
+}
+@keyframes twinkle {
+0%,100%{ opacity:.15; transform:scale(1); }
+50%    { opacity:.9;  transform:scale(1.6); }
+}
+
+/* ── PAGE ── */
+.page {
+position: relative; z-index: 1;
+display: flex; flex-direction: column; align-items: center;
+padding: 50px 20px 100px;
+min-height: 100vh;
+}
+
+/* ── HEADER ── */
+.header {
+text-align: center; margin-bottom: 4px;
+animation: riseIn 1.2s .1s both;
+}
+.tagline {
+font-size: clamp(.7rem, 2.5vw, .85rem);
+letter-spacing: 5px; text-transform: uppercase;
+color: rgba(255,217,90,.55);
+margin-bottom: 10px;
+}
+.big-name {
+font-family: ‘Cormorant Garamond’, serif;
+font-size: clamp(3.5rem, 14vw, 7rem);
+font-weight: 600;
+color: var(–yellow);
+line-height: 1;
+text-shadow: 0 0 40px rgba(255,217,90,.5), 0 0 80px rgba(255,217,90,.2);
+letter-spacing: 6px;
+position: relative;
+}
+.big-name::after {
+content: ‘’;
+display: block;
+width: 60%; height: 2px;
+background: linear-gradient(90deg, transparent, var(–gold), transparent);
+margin: 10px auto 0;
+}
+.subtitle {
+font-family: ‘Cormorant Garamond’, serif;
+font-style: italic;
+font-size: clamp(.95rem, 3.5vw, 1.2rem);
+color: rgba(255,255,255,.5);
+margin-top: 10px;
+letter-spacing: 1px;
+}
+
+@keyframes riseIn {
+from { opacity:0; transform:translateY(-28px); }
+to   { opacity:1; transform:none; }
+}
+
+/* ── FLOWER CANVAS ── */
+.flower-stage {
+position: relative;
+width: min(420px, 92vw);
+height: 320px;
+margin: 20px 0 0;
+animation: riseIn 1.4s .4s both;
+}
+/* soft ground glow */
+.ground-glow {
+position: absolute; bottom: -6px; left: 50%; transform: translateX(-50%);
+width: 280px; height: 40px;
+background: radial-gradient(ellipse, rgba(255,217,90,.18) 0%, transparent 70%);
+border-radius: 50%;
+}
+.flower-stage svg {
+position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+width: 100%; max-width: 420px;
+overflow: visible;
+}
+
+/* sway groups */
+.fl-a { animation: sway 4.2s  0s   ease-in-out infinite; transform-origin: 50% 100%; }
+.fl-b { animation: sway 3.8s  .6s  ease-in-out infinite; transform-origin: 50% 100%; }
+.fl-c { animation: sway 4.6s  1.2s ease-in-out infinite; transform-origin: 50% 100%; }
+.fl-d { animation: sway 3.5s  .3s  ease-in-out infinite; transform-origin: 50% 100%; }
+.fl-e { animation: sway 4.9s  .9s  ease-in-out infinite; transform-origin: 50% 100%; }
+
+@keyframes sway {
+0%,100%{ transform:rotate(-4deg); }
+50%    { transform:rotate(4deg);  }
+}
+
+/* petals glow on hover */
+.petal { transition: fill .3s; }
+.petal:hover { fill: #fff9c4; }
+
+/* floating pollen */
+.pollen {
+position: absolute; border-radius: 50%;
+background: var(–yellow);
+pointer-events: none;
+animation: drift var(–pd) var(–pp) ease-in-out infinite;
+}
+@keyframes drift {
+0%   { transform: translate(0,0)   scale(1);   opacity:.85; }
+60%  { transform: translate(var(–px), -80px) scale(.5); opacity:.5; }
+100% { transform: translate(var(–px), -140px) scale(.1); opacity:0; }
+}
+
+/* ── POEM CARD ── */
+.poem-card {
+max-width: 460px; width: 100%;
+background: rgba(255,255,255,.05);
+border: 1px solid rgba(255,217,90,.18);
+border-radius: 22px;
+padding: 30px 28px;
+margin-top: 28px;
+backdrop-filter: blur(10px);
+text-align: center;
+animation: riseIn 1.4s .7s both;
+}
+.poem-card .poem-text {
+font-family: ‘Cormorant Garamond’, serif;
+font-style: italic;
+font-size: clamp(1.05rem, 3.8vw, 1.25rem);
+line-height: 2;
+color: rgba(255,255,255,.88);
+}
+.poem-card .poem-text b { color: var(–yellow); font-style: normal; }
+.poem-card .poem-sig {
+margin-top: 16px;
+font-size: .8rem;
+letter-spacing: 3px;
+text-transform: uppercase;
+color: rgba(255,217,90,.45);
+}
+
+/* ── SARI PAPATYAM ── */
+.sari-papatya {
+text-align: center;
+margin-top: 30px;
+animation: riseIn 1.6s 1s both;
+}
+.sari-papatya .sp-label {
+font-family: ‘Cormorant Garamond’, serif;
+font-style: italic;
+font-size: clamp(1rem, 3.5vw, 1.15rem);
+color: rgba(255,255,255,.45);
+letter-spacing: 3px;
+text-transform: uppercase;
+margin-bottom: 6px;
+}
+.sari-papatya .sp-name {
+font-family: ‘Cormorant Garamond’, serif;
+font-size: clamp(2rem, 8vw, 3.2rem);
+font-weight: 600;
+color: var(–yellow);
+text-shadow: 0 0 30px rgba(255,217,90,.5), 0 0 60px rgba(255,217,90,.2);
+letter-spacing: 4px;
+line-height: 1;
+}
+.sari-papatya .sp-icon {
+font-size: 1.6rem;
+display: block;
+margin-top: 8px;
+animation: bob 2.5s ease-in-out infinite;
+}
+@keyframes bob {
+0%,100%{ transform:translateY(0); }
+50%    { transform:translateY(-6px); }
+}
+
+/* ── keep .opt.picked for nothing broken ── */
+.opt.picked {
+background: var(–yellow);
+border-color: var(–yellow);
+color: #1a0e00;
+font-weight: 700;
+}
+
+/* textarea */
+.q-input {
+width: 100%;
+background: rgba(255,255,255,.06);
+border: 1.5px solid rgba(255,217,90,.2);
+border-radius: 12px;
+color: var(–cream);
+font-family: ‘Nunito’, sans-serif;
+font-size: .93rem;
+padding: 12px 15px;
+resize: none;
+outline: none;
+transition: border-color .25s;
+min-height: 80px;
+}
+.q-input:focus { border-color: rgba(255,217,90,.6); }
+.q-input::placeholder { color: rgba(255,255,255,.3); }
+
+/* send button */
+.send-btn {
+width: 100%; margin-top: 24px;
+background: linear-gradient(135deg, var(–gold) 0%, var(–yellow) 100%);
+border: none; border-radius: 50px;
+color: #1a0e00;
+font-family: ‘Cormorant Garamond’, serif;
+font-size: 1.1rem; font-weight: 600;
+letter-spacing: 1.5px;
+padding: 15px;
+cursor: pointer;
+box-shadow: 0 4px 28px rgba(255,193,7,.3);
+transition: transform .2s, box-shadow .2s;
+}
+.send-btn:hover { transform:scale(1.03); box-shadow: 0 8px 36px rgba(255,193,7,.5); }
+.send-btn:active { transform:scale(.97); }
+
+/* ── THANK YOU ── */
+.thankyou {
+display: none;
+text-align: center;
+padding: 50px 20px;
+animation: popIn .7s ease both;
+}
+.thankyou.show { display: block; }
+@keyframes popIn {
+0%   { opacity:0; transform:scale(.75); }
+70%  { transform:scale(1.06); }
+100% { opacity:1; transform:scale(1); }
+}
+.ty-emoji { font-size: 4rem; display: block; margin-bottom: 12px; animation: heartbeat 1.2s ease-in-out infinite; }
+@keyframes heartbeat {
+0%,100%{ transform:scale(1);    }
+25%    { transform:scale(1.2);  }
+50%    { transform:scale(1.05); }
+75%    { transform:scale(1.18); }
+}
+.ty-head {
+font-family: ‘Cormorant Garamond’, serif;
+font-size: clamp(1.7rem, 6vw, 2.4rem);
+color: var(–yellow);
+margin-bottom: 12px;
+}
+.ty-body {
+font-size: clamp(.9rem, 3vw, 1.05rem);
+color: rgba(255,255,255,.65);
+line-height: 1.8;
+max-width: 340px; margin: 0 auto;
+}
+.ty-answers {
+margin-top: 28px;
+background: rgba(255,255,255,.05);
+border: 1px solid rgba(255,217,90,.15);
+border-radius: 16px;
+padding: 20px 22px;
+text-align: left;
+max-width: 400px; margin-left: auto; margin-right: auto;
+}
+.ty-answers h3 {
+font-family: ‘Cormorant Garamond’, serif;
+color: var(–yellow);
+font-size: 1rem; margin-bottom: 14px;
+letter-spacing: 1px;
+}
+.ty-row { margin-bottom: 10px; }
+.ty-q { font-size: .78rem; color: rgba(255,255,255,.45); margin-bottom: 2px; }
+.ty-a { font-size: .92rem; color: rgba(255,255,255,.85); }
+
+/* ── QUOTES ── */
+.quotes-wrap {
+max-width: 460px; width: 100%;
+margin-top: 20px;
+display: flex; flex-direction: column; gap: 14px;
+animation: riseIn 1.4s .9s both;
+}
+.quote-block {
+background: rgba(255,255,255,.04);
+border-left: 3px solid rgba(255,217,90,.35);
+border-radius: 0 16px 16px 0;
+padding: 18px 22px 18px 20px;
+display: flex; align-items: flex-start; gap: 14px;
+transition: border-color .3s, transform .3s;
+}
+.quote-block:hover { border-color: var(–yellow); transform: translateX(4px); }
+.q-icon { font-size: 1.4rem; flex-shrink: 0; margin-top: 2px; }
+.q-body {
+font-family: ‘Cormorant Garamond’, serif;
+font-style: italic;
+font-size: clamp(.98rem, 3.5vw, 1.12rem);
+color: rgba(255,255,255,.82);
+line-height: 1.8;
+}
+.q-body b { color: var(–yellow); font-style: normal; }
+
+/* ── CODED BY ── */
+.coded-by {
+max-width: 460px; width: 100%;
+margin-top: 40px;
+background: rgba(255,217,90,.07);
+border: 1px solid rgba(255,217,90,.25);
+border-radius: 18px;
+padding: 26px 28px;
+text-align: center;
+animation: riseIn 1.4s 1.1s both;
+}
+.cb-top {
+font-family: ‘Cormorant Garamond’, serif;
+font-size: clamp(1rem, 3.8vw, 1.18rem);
+color: rgba(255,255,255,.75);
+line-height: 1.7;
+margin-bottom: 10px;
+}
+.cb-top b { color: var(–yellow); }
+.cb-bot {
+font-size: clamp(.85rem, 3vw, .98rem);
+color: rgba(255,255,255,.5);
+line-height: 1.7;
+}
+.cb-bot b { color: rgba(255,217,90,.8); }
+
+/* ── FOOTER ── */
+.footer {
+margin-top: 60px;
+font-size: .72rem;
+color: rgba(255,255,255,.2);
+letter-spacing: 2px;
+text-align: center;
+}
+</style>
+
+</head>
+<body>
+
+<div id="starfield"></div>
+
+<div class="page">
+
+  <!-- HEADER -->
+
+  <div class="header">
+    <p class="tagline">✦ anneler günün kutlu olsun ✦</p>
+    <h1 class="big-name">Sevgi</h1>
+    <p class="subtitle">her şey senin için büyüdü</p>
+  </div>
+
+  <!-- FLOWERS -->
+
+  <div class="flower-stage">
+    <div class="ground-glow"></div>
+
+```
+<svg viewBox="0 0 420 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="centerGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%"   stop-color="#FF8C00"/>
+      <stop offset="100%" stop-color="#FFB800"/>
+    </radialGradient>
+    <radialGradient id="glowGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%"   stop-color="rgba(255,217,90,0.35)"/>
+      <stop offset="100%" stop-color="rgba(255,217,90,0)"/>
+    </radialGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softglow">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- background glow blob -->
+  <ellipse cx="210" cy="240" rx="140" ry="60" fill="url(#glowGrad)"/>
+
+  <!-- FLOWER 1 – tall center -->
+  <g class="fl-b">
+    <!-- stem -->
+    <path d="M210 300 C208 260 212 220 210 180" stroke="#3E8A52" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+    <!-- leaf right -->
+    <path d="M210 240 C230 225 245 230 240 240 C235 250 215 248 210 240Z" fill="#5DBB7A" opacity=".85"/>
+    <!-- leaf left -->
+    <path d="M210 215 C192 200 178 207 181 217 C184 226 205 222 210 215Z" fill="#5DBB7A" opacity=".75"/>
+    <!-- petals -->
+    <g filter="url(#glow)">
+      <ellipse class="petal" cx="210" cy="157" rx="10" ry="26" fill="#FFD95A" transform="rotate(0   210 180)"/>
+      <ellipse class="petal" cx="210" cy="157" rx="10" ry="26" fill="#FFD95A" transform="rotate(30  210 180)"/>
+      <ellipse class="petal" cx="210" cy="157" rx="10" ry="26" fill="#FFD95A" transform="rotate(60  210 180)"/>
+      <ellipse class="petal" cx="210" cy="157" rx="10" ry="26" fill="#FFD95A" transform="rotate(90  210 180)"/>
+      <ellipse class="petal" cx="210" cy="157" rx="10" ry="26" fill="#FFD95A" transform="rotate(120 210 180)"/>
+      <ellipse class="petal" cx="210" cy="157" rx="10" ry="26" fill="#FFD95A" transform="rotate(150 210 180)"/>
+      <ellipse class="petal" cx="210" cy="157" rx="10" ry="26" fill="#FFD95A" transform="rotate(180 210 180)"/>
+      <ellipse class="petal" cx="210" cy="157" rx="10" ry="26" fill="#FFD95A" transform="rotate(210 210 180)"/>
+      <ellipse class="petal" cx="210" cy="157" rx="10" ry="26" fill="#FFE680" transform="rotate(240 210 180)"/>
+      <ellipse class="petal" cx="210" cy="157" rx="10" ry="26" fill="#FFE680" transform="rotate(270 210 180)"/>
+      <ellipse class="petal" cx="210" cy="157" rx="10" ry="26" fill="#FFE680" transform="rotate(300 210 180)"/>
+      <ellipse class="petal" cx="210" cy="157" rx="10" ry="26" fill="#FFE680" transform="rotate(330 210 180)"/>
+    </g>
+    <circle cx="210" cy="180" r="14" fill="url(#centerGrad)" filter="url(#glow)"/>
+    <circle cx="210" cy="180" r="8"  fill="#FF6F00" opacity=".6"/>
+  </g>
+
+  <!-- FLOWER 2 – left medium -->
+  <g class="fl-a">
+    <path d="M148 300 C146 268 150 238 146 208" stroke="#3E8A52" stroke-width="3" stroke-linecap="round" fill="none"/>
+    <path d="M147 255 C165 242 178 248 174 257 C170 266 150 263 147 255Z" fill="#5DBB7A" opacity=".8"/>
+    <g filter="url(#glow)">
+      <ellipse class="petal" cx="146" cy="187" rx="9" ry="23" fill="#FFD95A" transform="rotate(0   146 208)"/>
+      <ellipse class="petal" cx="146" cy="187" rx="9" ry="23" fill="#FFD95A" transform="rotate(36  146 208)"/>
+      <ellipse class="petal" cx="146" cy="187" rx="9" ry="23" fill="#FFD95A" transform="rotate(72  146 208)"/>
+      <ellipse class="petal" cx="146" cy="187" rx="9" ry="23" fill="#FFD95A" transform="rotate(108 146 208)"/>
+      <ellipse class="petal" cx="146" cy="187" rx="9" ry="23" fill="#FFD95A" transform="rotate(144 146 208)"/>
+      <ellipse class="petal" cx="146" cy="187" rx="9" ry="23" fill="#FFD95A" transform="rotate(180 146 208)"/>
+      <ellipse class="petal" cx="146" cy="187" rx="9" ry="23" fill="#FFE680" transform="rotate(216 146 208)"/>
+      <ellipse class="petal" cx="146" cy="187" rx="9" ry="23" fill="#FFE680" transform="rotate(252 146 208)"/>
+      <ellipse class="petal" cx="146" cy="187" rx="9" ry="23" fill="#FFE680" transform="rotate(288 146 208)"/>
+      <ellipse class="petal" cx="146" cy="187" rx="9" ry="23" fill="#FFE680" transform="rotate(324 146 208)"/>
+    </g>
+    <circle cx="146" cy="208" r="12" fill="url(#centerGrad)" filter="url(#glow)"/>
+  </g>
+
+  <!-- FLOWER 3 – right medium -->
+  <g class="fl-c">
+    <path d="M272 300 C270 265 275 235 272 205" stroke="#3E8A52" stroke-width="3" stroke-linecap="round" fill="none"/>
+    <path d="M272 248 C253 236 240 242 244 251 C248 260 268 258 272 248Z" fill="#5DBB7A" opacity=".8"/>
+    <g filter="url(#glow)">
+      <ellipse class="petal" cx="272" cy="184" rx="9" ry="23" fill="#FFD95A" transform="rotate(0   272 205)"/>
+      <ellipse class="petal" cx="272" cy="184" rx="9" ry="23" fill="#FFD95A" transform="rotate(36  272 205)"/>
+      <ellipse class="petal" cx="272" cy="184" rx="9" ry="23" fill="#FFD95A" transform="rotate(72  272 205)"/>
+      <ellipse class="petal" cx="272" cy="184" rx="9" ry="23" fill="#FFD95A" transform="rotate(108 272 205)"/>
+      <ellipse class="petal" cx="272" cy="184" rx="9" ry="23" fill="#FFD95A" transform="rotate(144 272 205)"/>
+      <ellipse class="petal" cx="272" cy="184" rx="9" ry="23" fill="#FFD95A" transform="rotate(180 272 205)"/>
+      <ellipse class="petal" cx="272" cy="184" rx="9" ry="23" fill="#FFE680" transform="rotate(216 272 205)"/>
+      <ellipse class="petal" cx="272" cy="184" rx="9" ry="23" fill="#FFE680" transform="rotate(252 272 205)"/>
+      <ellipse class="petal" cx="272" cy="184" rx="9" ry="23" fill="#FFE680" transform="rotate(288 272 205)"/>
+      <ellipse class="petal" cx="272" cy="184" rx="9" ry="23" fill="#FFE680" transform="rotate(324 272 205)"/>
+    </g>
+    <circle cx="272" cy="205" r="12" fill="url(#centerGrad)" filter="url(#glow)"/>
+  </g>
+
+  <!-- FLOWER 4 – far left small -->
+  <g class="fl-d">
+    <path d="M86 300 C84 275 88 255 85 235" stroke="#3E8A52" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+    <g filter="url(#glow)">
+      <ellipse class="petal" cx="85" cy="218" rx="7" ry="19" fill="#FFD95A" transform="rotate(0   85 235)"/>
+      <ellipse class="petal" cx="85" cy="218" rx="7" ry="19" fill="#FFD95A" transform="rotate(45  85 235)"/>
+      <ellipse class="petal" cx="85" cy="218" rx="7" ry="19" fill="#FFD95A" transform="rotate(90  85 235)"/>
+      <ellipse class="petal" cx="85" cy="218" rx="7" ry="19" fill="#FFD95A" transform="rotate(135 85 235)"/>
+      <ellipse class="petal" cx="85" cy="218" rx="7" ry="19" fill="#FFE680" transform="rotate(180 85 235)"/>
+      <ellipse class="petal" cx="85" cy="218" rx="7" ry="19" fill="#FFE680" transform="rotate(225 85 235)"/>
+      <ellipse class="petal" cx="85" cy="218" rx="7" ry="19" fill="#FFE680" transform="rotate(270 85 235)"/>
+      <ellipse class="petal" cx="85" cy="218" rx="7" ry="19" fill="#FFE680" transform="rotate(315 85 235)"/>
+    </g>
+    <circle cx="85" cy="235" r="10" fill="url(#centerGrad)" filter="url(#glow)"/>
+  </g>
+
+  <!-- FLOWER 5 – far right small -->
+  <g class="fl-e">
+    <path d="M334 300 C332 272 337 250 334 228" stroke="#3E8A52" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+    <path d="M334 265 C318 254 306 260 309 269 C313 277 330 275 334 265Z" fill="#5DBB7A" opacity=".7"/>
+    <g filter="url(#glow)">
+      <ellipse class="petal" cx="334" cy="211" rx="7" ry="19" fill="#FFD95A" transform="rotate(0   334 228)"/>
+      <ellipse class="petal" cx="334" cy="211" rx="7" ry="19" fill="#FFD95A" transform="rotate(45  334 228)"/>
+      <ellipse class="petal" cx="334" cy="211" rx="7" ry="19" fill="#FFD95A" transform="rotate(90  334 228)"/>
+      <ellipse class="petal" cx="334" cy="211" rx="7" ry="19" fill="#FFD95A" transform="rotate(135 334 228)"/>
+      <ellipse class="petal" cx="334" cy="211" rx="7" ry="19" fill="#FFE680" transform="rotate(180 334 228)"/>
+      <ellipse class="petal" cx="334" cy="211" rx="7" ry="19" fill="#FFE680" transform="rotate(225 334 228)"/>
+      <ellipse class="petal" cx="334" cy="211" rx="7" ry="19" fill="#FFE680" transform="rotate(270 334 228)"/>
+      <ellipse class="petal" cx="334" cy="211" rx="7" ry="19" fill="#FFE680" transform="rotate(315 334 228)"/>
+    </g>
+    <circle cx="334" cy="228" r="10" fill="url(#centerGrad)" filter="url(#glow)"/>
+  </g>
+</svg>
+
+<!-- pollen particles (JS placed) -->
+```
+
+  </div>
+
+  <!-- POEM CARD -->
+
+  <div class="poem-card">
+    <p class="poem-text">
+      Herkes çiçek alır anneler günü için,<br>
+      <b>Ben senin için kodladım.</b><br>
+      Bu papatyalar hiç solmuyor,<br>
+      tıpkı senin sevgin gibi —<br>
+      <b>sonsuza kadar açık.</b>
+    </p>
+    <p class="poem-sig">✦ seni çok seviyorum ✦</p>
+  </div>
+
+  <!-- QUOTES -->
+
+  <div class="quotes-wrap">
+
+```
+<div class="quote-block">
+  <span class="q-icon">🌸</span>
+  <p class="q-body">
+    Senden uzak kaldım.<br>
+    Her geçen gün, her gece —<br>
+    <b>en çok seni özledim.</b>
+  </p>
+</div>
+
+<div class="quote-block">
+  <span class="q-icon">💛</span>
+  <p class="q-body">
+    Seninle geçirdiğim her anın kıymetini<br>
+    ancak uzaktayken anladım.<br>
+    <b>Geldiğimde her günün acısını<br>
+    güzel anılarla dolduracağız.</b>
+  </p>
+</div>
+
+<div class="quote-block">
+  <span class="q-icon">🌼</span>
+  <p class="q-body">
+    Sarı papatyam —<br>
+    sen hep orada durdun, ben döneceğimi biliyordum.<br>
+    <b>Çünkü eve dönmek demek<br>
+    sana dönmek demek.</b>
+  </p>
+</div>
+
+<div class="quote-block">
+  <span class="q-icon">✨</span>
+  <p class="q-body">
+    Bugün anneler günü,<br>
+    çiçek alamadım, yanında olamadım —<br>
+    ama <b>bu sayfayı senin için yazdım.</b><br>
+    Her satırında seni düşündüm.
+  </p>
+</div>
+
+<div class="quote-block">
+  <span class="q-icon">🤍</span>
+  <p class="q-body">
+    Seni sevmek için özel bir güne ihtiyacım yok.<br>
+    Ama bugün herkese haykırmak istedim —<br>
+    <b>dünyanın en güzel annesi benim annem.</b>
+  </p>
+</div>
+```
+
+  </div>
+
+  <!-- SARI PAPATYAM -->
+
+  <div class="sari-papatya">
+    <p class="sp-label">benim</p>
+    <p class="sp-name">Sarı Papatyam</p>
+    <span class="sp-icon">🌼</span>
+  </div>
+
+  <div class="coded-by">
+    <p class="cb-top">Bu sayfa sana özel, <b>benim tarafımdan kodlandı.</b></p>
+    <p class="cb-bot">Senden uzaktayken bile <b>ilk düşündüğüm hep sendin.</b><br>Yakında görüşeceğiz. Seni çok seviyorum. 💛</p>
+  </div>
+
+  <p class="footer">anneler günün kutlu olsun &nbsp;✦&nbsp; sevginle büyüdüm</p>
+</div>
+
+<script>
+// ── STARS ──
+const sf = document.getElementById('starfield');
+for (let i = 0; i < 180; i++) {
+  const s = document.createElement('div');
+  s.className = 'star';
+  const sz = Math.random() * 2.4 + .4;
+  s.style.cssText = `
+    width:${sz}px; height:${sz}px;
+    top:${Math.random()*100}%;
+    left:${Math.random()*100}%;
+    --t:${(Math.random()*3+2).toFixed(1)}s;
+    --d:${(Math.random()*4).toFixed(1)}s;
+  `;
+  sf.appendChild(s);
+}
+
+// ── POLLEN PARTICLES ──
+const stage = document.querySelector('.flower-stage');
+const pollenData = [
+  { left:'41%', bottom:'55%', size:5, dur:'5.2s', delay:'0s',  dx:'12px'  },
+  { left:'37%', bottom:'60%', size:4, dur:'6.1s', delay:'.8s', dx:'-8px'  },
+  { left:'45%', bottom:'58%', size:3, dur:'4.8s', delay:'1.5s',dx:'6px'   },
+  { left:'30%', bottom:'45%', size:4, dur:'5.6s', delay:'.3s', dx:'-14px' },
+  { left:'55%', bottom:'47%', size:5, dur:'6.4s', delay:'1.1s',dx:'10px'  },
+  { left:'60%', bottom:'52%', size:3, dur:'5s',   delay:'2s',  dx:'-6px'  },
+  { left:'22%', bottom:'42%', size:3, dur:'5.8s', delay:'.6s', dx:'8px'   },
+  { left:'68%', bottom:'43%', size:4, dur:'6.2s', delay:'1.8s',dx:'-10px' },
+];
+pollenData.forEach(p => {
+  const el = document.createElement('div');
+  el.className = 'pollen';
+  el.style.cssText = `
+    left:${p.left}; bottom:${p.bottom};
+    width:${p.size}px; height:${p.size}px;
+    --pd:${p.dur}; --pp:${p.delay}; --px:${p.dx};
+  `;
+  stage.appendChild(el);
+});
+
+// ── OPTION SELECTION (unused but harmless) ──
+
+</script>
+
+</body>
+</html>
